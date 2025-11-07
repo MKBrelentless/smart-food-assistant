@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <video autoplay></video>
+  <script>
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        document.querySelector('video').srcObject = stream;
+      })
+      .catch(err => console.error('Error:', err));
+  </script>
+</body>
+</html>

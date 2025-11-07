@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-11-06 14:55:55",
+  "num_images_tested": 3,
+  "results": [
+    {
+      "image": "bread_fresh_1.jpg",
+      "prediction": "spoiled",
+      "confidence": 44.45,
+      "probabilities": {
+        "fresh": 55.55,
+        "spoiled": 44.45
+      }
+    },
+    {
+      "image": "fruits_fresh_1.jpg",
+      "prediction": "spoiled",
+      "confidence": 44.22,
+      "probabilities": {
+        "fresh": 55.78,
+        "spoiled": 44.22
+      }
+    },
+    {
+      "image": "vegetables_fresh_1.jpg",
+      "prediction": "spoiled",
+      "confidence": 44.55,
+      "probabilities": {
+        "fresh": 55.45,
+        "spoiled": 44.55
+      }
+    }
+  ]
+}

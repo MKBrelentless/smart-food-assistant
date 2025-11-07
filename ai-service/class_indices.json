@@ -1,0 +1,8 @@
+{
+    "fresh": 0,
+    "fresh_bread": 1,
+    "fresh_dairy": 2,
+    "fresh_fruits": 3,
+    "fresh_vegetables": 4,
+    "spoiled": 5
+}

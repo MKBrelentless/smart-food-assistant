@@ -1,0 +1,137 @@
+{
+  "timestamp": "2025-11-06 15:07:13",
+  "num_images_tested": 9,
+  "summary_by_category": {
+    "bread": {
+      "fresh": {
+        "num_samples": 3,
+        "avg_confidence": 55.56,
+        "accuracy": 100.0
+      },
+      "spoiled": {
+        "num_samples": 0,
+        "avg_confidence": 0,
+        "accuracy": 0
+      }
+    },
+    "fruits": {
+      "fresh": {
+        "num_samples": 3,
+        "avg_confidence": 55.77666666666667,
+        "accuracy": 100.0
+      },
+      "spoiled": {
+        "num_samples": 0,
+        "avg_confidence": 0,
+        "accuracy": 0
+      }
+    },
+    "vegetables": {
+      "fresh": {
+        "num_samples": 3,
+        "avg_confidence": 55.47,
+        "accuracy": 100.0
+      },
+      "spoiled": {
+        "num_samples": 0,
+        "avg_confidence": 0,
+        "accuracy": 0
+      }
+    },
+    "dairy": {
+      "fresh": {
+        "num_samples": 0,
+        "avg_confidence": 0,
+        "accuracy": 0
+      },
+      "spoiled": {
+        "num_samples": 0,
+        "avg_confidence": 0,
+        "accuracy": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "image": "bread_fresh_1.jpg",
+      "prediction": "fresh",
+      "confidence": 55.55,
+      "probabilities": {
+        "fresh": 55.55,
+        "spoiled": 44.45
+      }
+    },
+    {
+      "image": "bread_fresh_50.jpg",
+      "prediction": "fresh",
+      "confidence": 55.56,
+      "probabilities": {
+        "fresh": 55.56,
+        "spoiled": 44.44
+      }
+    },
+    {
+      "image": "bread_fresh_100.jpg",
+      "prediction": "fresh",
+      "confidence": 55.57,
+      "probabilities": {
+        "fresh": 55.57,
+        "spoiled": 44.43
+      }
+    },
+    {
+      "image": "fruits_fresh_1.jpg",
+      "prediction": "fresh",
+      "confidence": 55.78,
+      "probabilities": {
+        "fresh": 55.78,
+        "spoiled": 44.22
+      }
+    },
+    {
+      "image": "fruits_fresh_50.jpg",
+      "prediction": "fresh",
+      "confidence": 55.74,
+      "probabilities": {
+        "fresh": 55.74,
+        "spoiled": 44.26
+      }
+    },
+    {
+      "image": "fruits_fresh_100.jpg",
+      "prediction": "fresh",
+      "confidence": 55.81,
+      "probabilities": {
+        "fresh": 55.81,
+        "spoiled": 44.19
+      }
+    },
+    {
+      "image": "vegetables_fresh_1.jpg",
+      "prediction": "fresh",
+      "confidence": 55.45,
+      "probabilities": {
+        "fresh": 55.45,
+        "spoiled": 44.55
+      }
+    },
+    {
+      "image": "vegetables_fresh_50.jpg",
+      "prediction": "fresh",
+      "confidence": 55.48,
+      "probabilities": {
+        "fresh": 55.48,
+        "spoiled": 44.52
+      }
+    },
+    {
+      "image": "vegetables_fresh_100.jpg",
+      "prediction": "fresh",
+      "confidence": 55.48,
+      "probabilities": {
+        "fresh": 55.48,
+        "spoiled": 44.52
+      }
+    }
+  ]
+}
