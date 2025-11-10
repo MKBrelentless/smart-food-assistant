@@ -13,7 +13,9 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Scan from "./pages/Scan";
 import History from "./pages/History";
-import DietAnalysis from "./pages/DietAnalysis";
+import DietPage from "./pages/DietPage";
+import MealPlanPage from "./pages/MealPlanPage";
+import NutritionConditionsPage from "./pages/NutritionConditionsPage";
 
 /* ✅ Protected Route */
 const ProtectedRoute = ({ token, children }) => {
@@ -58,8 +60,14 @@ function Navbar({ handleLogout }) {
         <Link to="/history" style={linkStyle(location.pathname === "/history")}>
           History
         </Link>
-        <Link to="/diet-analysis" style={linkStyle(location.pathname === "/diet-analysis")}>
-          Diet Analysis
+        <Link to="/diet" style={linkStyle(location.pathname === "/diet")}>
+          Diet
+        </Link>
+        <Link to="/meal-plan" style={linkStyle(location.pathname === "/meal-plan")}>
+          Meal Plan
+        </Link>
+        <Link to="/nutrition-conditions" style={linkStyle(location.pathname === "/nutrition-conditions")}>
+          Nutrition Health Conditions
         </Link>
         <button
           onClick={handleLogout}
@@ -162,13 +170,31 @@ function App() {
         />
 
         <Route
-          path="/diet-analysis"
+          path="/diet"
           element={
             <ProtectedRoute token={token}>
-              <DietAnalysis />
+              <DietPage />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/meal-plan"
+          element={
+            <ProtectedRoute token={token}>
+              <MealPlanPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/nutrition-conditions"
+          element={
+            <ProtectedRoute token={token}>
+              <NutritionConditionsPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Backward compatibility redirect */}
+        <Route path="/diet-analysis" element={<Navigate to="/diet" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

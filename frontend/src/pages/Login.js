@@ -42,112 +42,109 @@ function Login({ setToken }) {
   const styles = {
     container: {
       display: "flex",
-      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #d0f0fd 0%, #e8f5fd 100%)",
-      fontFamily: "'Ubuntu', Arial, sans-serif",
-      position: "relative",
-      overflow: "hidden",
+      background: "linear-gradient(135deg, #ecfeff 0%, #f0fdf4 100%)",
+      fontFamily: "Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
+      padding: "24px",
     },
-    topBanner: {
-      position: "absolute",
-      top: "30px",
+    shell: {
       width: "100%",
+      maxWidth: "980px",
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: "16px",
+    },
+    headerBar: {
       textAlign: "center",
-      color: "#333",
+      color: "#12372A",
+      fontWeight: 800,
+      letterSpacing: 1,
+      marginBottom: 8,
     },
     box: {
-      padding: "30px",
+      padding: "28px",
       backgroundColor: "white",
-      borderRadius: "15px",
-      boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
+      borderRadius: "16px",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
       width: "100%",
-      maxWidth: "400px",
-      zIndex: 2,
-      transition: "transform 0.2s ease-in-out",
-      "&:hover": {
-        transform: "translateY(-5px)",
-      },
+      maxWidth: "480px",
+      margin: "0 auto",
+      border: "1px solid #e5e7eb",
+    },
+    title: {
+      textAlign: "center",
+      marginBottom: "8px",
+      color: "#0f172a",
+    },
+    subtitle: {
+      textAlign: "center",
+      marginTop: 0,
+      marginBottom: 16,
+      color: "#64748b",
+      fontSize: 14,
     },
     input: {
       width: "100%",
       padding: "12px",
-      marginBottom: "15px",
-      borderRadius: "8px",
-      border: "2px solid #e0e0e0",
+      marginBottom: "12px",
+      borderRadius: "10px",
+      border: "1px solid #cbd5e1",
       fontSize: "16px",
-      transition: "border-color 0.3s ease",
       outline: "none",
-      "&:focus": {
-        borderColor: "#4CAF50",
-      },
     },
     button: {
       width: "100%",
-      padding: "14px",
-      borderRadius: "8px",
+      padding: "12px",
+      borderRadius: "10px",
       border: "none",
-      backgroundColor: "#4CAF50",
+      backgroundColor: "#2C786C",
       color: "white",
-      fontWeight: "600",
+      fontWeight: 600,
       fontSize: "16px",
       cursor: "pointer",
-      transition: "all 0.3s ease",
-      "&:hover": {
-        backgroundColor: "#45a049",
-        transform: "translateY(-2px)",
-      },
-      "&:active": {
-        transform: "translateY(0)",
-      },
     },
     error: {
-      color: "#e53935",
-      marginBottom: "15px",
+      color: "#b91c1c",
+      marginBottom: "12px",
       textAlign: "center",
       padding: "10px",
-      backgroundColor: "#ffebee",
-      borderRadius: "8px",
+      backgroundColor: "#FEF2F2",
+      borderRadius: "10px",
       fontSize: "14px",
-      fontWeight: "500",
-    },
-    link: {
-      color: "#4CAF50",
-      fontWeight: "bold",
-      textDecoration: "none",
+      border: "1px solid #FECACA",
     },
     footer: {
       textAlign: "center",
       marginTop: "10px",
+      color: "#334155",
     },
-    infoSection: {
-      position: "absolute",
-      bottom: "80px",
-      width: "80%",
+    link: {
+      color: "#2C786C",
+      fontWeight: 700,
+      textDecoration: "none",
+    },
+    infoBlock: {
+      background: "#f8fafc",
+      border: "1px solid #e2e8f0",
+      borderRadius: 12,
+      padding: 16,
       textAlign: "center",
-      color: "#06643b",
-      fontSize: "18px",
-      fontWeight: "500",
-      lineHeight: "1.5",
+      color: "#065F46",
     },
-    imageSection: {
-      position: "absolute",
-      bottom: "0",
-      right: "0",
-      opacity: 0.15,
-      zIndex: 1,
-    },
-    image: {
-      width: "500px",
-      height: "auto",
+    externalImage: {
+      display: "block",
+      width: "100%",
+      maxWidth: "780px",
+      margin: "8px auto 0",
+      borderRadius: 12,
+      border: "1px solid #e5e7eb",
+      boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
     },
     quickLinks: {
-      position: "absolute",
-      bottom: "20px",
       textAlign: "center",
-      width: "100%",
+      marginTop: "12px",
     },
     quickLink: {
       margin: "0 10px",
@@ -159,72 +156,73 @@ function Login({ setToken }) {
 
   return (
     <div style={styles.container}>
-      <div style={styles.topBanner}>
-        <h1>WELCOME TO THE SMART FOOD ASSISTANT MODEL</h1>
-      </div>
+      <div style={styles.shell}>
+        {/* Top header retained */}
+        <div style={styles.headerBar}>SMART FOOD ASSISTANT</div>
 
-      <div style={styles.imageSection}>
-        <img src="/images/food-bg.png" alt="Healthy food" style={styles.image} />
-      </div>
+        <div style={styles.box}>
+          <h2 style={styles.title}>Login</h2>
+          <div style={styles.subtitle}>Access your Smart Food Assistant</div>
+          {error && <p style={styles.error}>{error}</p>}
 
-      <div style={styles.box}>
-        <h2 style={{ textAlign: "center", marginBottom: "15px" }}>Login</h2>
-        {error && <p style={styles.error}>{error}</p>}
+          <form onSubmit={handleLogin}>
+            <input
+              style={styles.input}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              style={styles.input}
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button style={styles.button} type="submit">
+              Login
+            </button>
+          </form>
 
-        <form onSubmit={handleLogin}>
-          <input
-            style={styles.input}
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            style={styles.input}
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button style={styles.button} type="submit">
-            Login
-          </button>
-        </form>
+          <p style={styles.footer}>
+            Don’t have an account?{" "}
+            <Link style={styles.link} to="/register">
+              Register here
+            </Link>
+          </p>
+        </div>
 
-        <p style={styles.footer}>
-          Don’t have an account?{" "}
-          <Link style={styles.link} to="/register">
-            Register here
+        {/* Info block below the container */}
+        <div style={styles.infoBlock}>
+          Diet safety is no longer a problem that will give you restless moments. We are passionate about ensuring you have a secure and healthy diet.
+        </div>
+
+        {/* External image after the login container */}
+        <img
+          src="/meal.webp"
+          alt="Healthy meal"
+          style={styles.externalImage}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
+        />
+
+        <div style={styles.quickLinks}>
+          <Link style={styles.quickLink} to="/about">
+            About
           </Link>
-        </p>
-      </div>
-
-      <div style={styles.infoSection}>
-        <p>
-          Diet safety is no longer a problem that will give you restless
-          moments. We are passionate about ensuring you have a secure and
-          healthy diet.
-        </p>
-      </div>
-
-      
-
-
-
-      <div style={styles.quickLinks}>
-        <Link style={styles.quickLink} to="/about">
-          About
-        </Link>
-        |
-        <Link style={styles.quickLink} to="/help">
-          Help
-        </Link>
-        |
-        <Link style={styles.quickLink} to="/contact">
-          Contact
-        </Link>
+          |
+          <Link style={styles.quickLink} to="/help">
+            Help
+          </Link>
+          |
+          <Link style={styles.quickLink} to="/contact">
+            Contact
+          </Link>
+        </div>
       </div>
     </div>
   );
