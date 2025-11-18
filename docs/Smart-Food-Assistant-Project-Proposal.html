@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Food Assistant – Project Proposal</title>
+  <style>
+    :root { --fg:#1a1a1a; --muted:#555; --bg:#fff; --accent:#0b5fff; --border:#e5e7eb; --code:#f6f8fa; }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Helvetica Neue',Arial,'Noto Sans','Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;line-height:1.55}
+    .container{max-width:980px;margin:0 auto;padding:48px 24px}
+    h1{font-size:2rem;margin:0 0 8px}
+    h2{font-size:1.45rem;margin:28px 0 10px;padding-top:16px;border-top:1px solid var(--border)}
+    h3{font-size:1.15rem;margin:18px 0 6px}
+    p{margin:8px 0 12px}
+    ul,ol{margin:8px 0 16px 20px}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;background:var(--code);padding:1px 6px;border-radius:4px;font-size:.95em}
+    .muted{color:var(--muted)}
+    .toc{border:1px solid var(--border);border-radius:8px;padding:16px;background:#fafafa}
+    .meta{font-size:.95em;color:var(--muted)}
+    @media print {.no-print{display:none} a{color:inherit;text-decoration:none} .container{padding:0} h2{border-top:none;padding-top:0}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Smart Food Assistant – Project Proposal</h1>
+      <p class="meta">Date: <script>document.write(new Date().toISOString().slice(0,10))</script> • Version: 1.0</p>
+    </header>
+
+    <nav class="toc no-print">
+      <strong>Table of Contents</strong>
+      <ol>
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#related-work">Related Work / Literature Review</a></li>
+        <li><a href="#methodology">Methodology & System Design</a></li>
+        <li><a href="#implementation-plan">Implementation Plan</a></li>
+        <li><a href="#evaluation">Evaluation & Testing</a></li>
+        <li><a href="#budget">Budget & Resources</a></li>
+        <li><a href="#sustainability">Sustainability & Maintenance</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#appendices">Appendices</a></li>
+      </ol>
+    </nav>
+
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <p>The Smart Food Assistant is a full-stack system that helps users determine whether food items are fresh or spoiled using a deep learning model, and provides nutrition-related analyses to guide healthier choices. This proposal outlines the motivation, objectives, architecture (Flask AI service, Node/Express backend, and React frontend), methodology, implementation plan, evaluation approach, and projected resources. The project targets improved food safety, reduced waste, and user-friendly dietary insights.</p>
+    </section>
+
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <h3>Background & Problem Statement</h3>
+      <p>Food waste and foodborne illnesses have significant health and economic impacts. Consumers often lack quick, reliable tools to assess freshness, leading to premature disposal or consumption of unsafe food. Modern computer vision and web technologies enable a practical solution for image-based freshness assessment and personalized nutrition guidance.</p>
+
+      <h3>Objectives</h3>
+      <ul>
+        <li>Provide real-time assessment of food freshness from an image.</li>
+        <li>Offer evidence-based nutrition and diet analysis features.</li>
+        <li>Store user scan history for trend analysis and accountability.</li>
+        <li>Deliver a simple, responsive web interface accessible on desktop and mobile.</li>
+      </ul>
+
+      <h3>Scope & Deliverables</h3>
+      <ul>
+        <li>Flask AI service exposing prediction and nutrition endpoints.</li>
+        <li>Node/Express backend with authentication, history, and AI integration.</li>
+        <li>React frontend for login/register, scanning, history, and dietary tools.</li>
+        <li>Deployment-ready documentation and API references.</li>
+      </ul>
+    </section>
+
+    <section id="related-work">
+      <h2>Related Work / Literature Review</h2>
+      <p>Image-based food quality assessment is common in agriculture and retail. Convolutional neural networks (CNNs) excel in classification tasks, including freshness detection. Nutrition guidance often uses food composition databases and heuristic or rule-based models. This project integrates these ideas into a cohesive, user-facing application.</p>
+    </section>
+
+    <section id="methodology">
+      <h2>Methodology & System Design</h2>
+
+      <h3>System Architecture</h3>
+      <ul>
+        <li><strong>AI Service (Flask + TensorFlow, port 5001)</strong>: Hosts the trained model and nutrition analysis endpoints.</li>
+        <li><strong>Backend API (Node/Express + MongoDB, port 3001)</strong>: Authentication, authorization (JWT), scan proxy/storage, and history.</li>
+        <li><strong>Frontend (React, port 3000)</strong>: User interface integrating with both services.</li>
+      </ul>
+
+      <h3>Components</h3>
+      <ul>
+        <li><strong>AI Service</strong>: <code>/predict</code>, <code>/analyze-diet</code>, <code>/analyze-meal</code>, <code>/health-recommendations</code>. Loads model from <code>food_model.keras</code>.</li>
+        <li><strong>Backend API</strong>: <code>/auth</code> (login/register), <code>/api/food/scan</code> (forward to AI and store), <code>/api/food/history</code> (retrieve user scans).</li>
+        <li><strong>Frontend</strong>: Pages for Login, Register, Dashboard, Scan, History, and Diet Analysis; integrates via <code>src/api.js</code>.</li>
+      </ul>
+
+      <h3>Data Sources & Model</h3>
+      <ul>
+        <li>Dataset under <code>datasets/mydataset</code> with labeled fresh/spoiled categories.</li>
+        <li>TensorFlow/Keras CNN trained; predictions simplified to Fresh/Spoiled with recommendations.</li>
+        <li>Model artifact: <code>ai-service/food_model.keras</code>; training scripts in <code>ai-service/*.py</code>.</li>
+      </ul>
+
+      <h3>Security, Privacy & Compliance</h3>
+      <ul>
+        <li>JWT-based auth for protected routes.</li>
+        <li>Validate uploads, enforce size/type limits, define retention policy for images.</li>
+        <li>Move secrets to environment variables; do not commit secrets to source control.</li>
+      </ul>
+    </section>
+
+    <section id="implementation-plan">
+      <h2>Implementation Plan</h2>
+      <h3>Technology Stack</h3>
+      <ul>
+        <li>Frontend: React, Axios</li>
+        <li>Backend: Node.js, Express, Mongoose, Multer, JWT</li>
+        <li>AI Service: Python, Flask, TensorFlow/Keras, NumPy, Pillow</li>
+        <li>Database: MongoDB</li>
+      </ul>
+
+      <h3>Timeline & Milestones</h3>
+      <ol>
+        <li><strong>Week 1–2:</strong> Requirements, dataset curation, project scaffolding.</li>
+        <li><strong>Week 3–4:</strong> Model training and evaluation; Flask service with /predict.</li>
+        <li><strong>Week 5–6:</strong> Backend auth and scan/history APIs; AI integration.</li>
+        <li><strong>Week 7–8:</strong> Frontend pages and UX; end-to-end integration.</li>
+        <li><strong>Week 9:</strong> Testing, bug fixes, performance tuning.</li>
+        <li><strong>Week 10:</strong> Documentation and deployment plan.</li>
+      </ol>
+
+      <h3>Risks & Mitigations</h3>
+      <ul>
+        <li><strong>Model accuracy</strong>: dataset augmentation, retraining, threshold tuning.</li>
+        <li><strong>Performance</strong>: server-side inference, caching, optimized preprocessing.</li>
+        <li><strong>Network/CORS</strong>: proper CORS config, environment-driven base URLs.</li>
+        <li><strong>Security</strong>: rate limiting, validation, secret management via .env files.</li>
+      </ul>
+    </section>
+
+    <section id="evaluation">
+      <h2>Evaluation & Testing</h2>
+      <ul>
+        <li><strong>Model</strong>: accuracy, precision/recall, confusion matrix on validation set.</li>
+        <li><strong>API</strong>: unit/integration tests for auth, scan, history.</li>
+        <li><strong>Frontend</strong>: smoke tests; manual flows for login, upload, history.</li>
+        <li><strong>KPIs</strong>: prediction accuracy ≥ target, p95 latency for /predict under target, low error rate on happy-path flows.</li>
+      </ul>
+    </section>
+
+    <section id="budget">
+      <h2>Budget & Resources</h2>
+      <ul>
+        <li>Compute: local dev machine; optional GPU for training.</li>
+        <li>Software: open-source stack (Node, Python, MongoDB, React, TensorFlow).</li>
+        <li>Cloud (optional): hosting for API/AI service, object storage, managed MongoDB.</li>
+        <li>Personnel: 1–2 developers over ~10 weeks (scope-dependent).</li>
+      </ul>
+    </section>
+
+    <section id="sustainability">
+      <h2>Sustainability & Maintenance</h2>
+      <ul>
+        <li>Versioning, CI for builds/tests.</li>
+        <li>Service logging/monitoring; model drift checks.</li>
+        <li>Docs maintained with code; periodic dependency updates.</li>
+      </ul>
+    </section>
+
+    <section id="conclusion">
+      <h2>Conclusion</h2>
+      <p>The Smart Food Assistant leverages ML and web technologies to address food safety and nutrition needs. The modular design and plan provide a feasible path to a robust product with room for future enhancements (expanded categories, personalization, deployment hardening).</p>
+    </section>
+
+    <section id="references">
+      <h2>References</h2>
+      <ul>
+        <li>TensorFlow/Keras documentation</li>
+        <li>Flask & Flask-CORS documentation</li>
+        <li>MongoDB & Mongoose documentation</li>
+        <li>Academic literature on image-based food quality assessment</li>
+      </ul>
+    </section>
+
+    <section id="appendices">
+      <h2>Appendices</h2>
+      <h3>Appendix A: API Summary</h3>
+      <ul>
+        <li><strong>Backend</strong>: <code>POST /auth/register</code>, <code>POST /auth/login</code>, <code>POST /api/food/scan</code>, <code>GET /api/food/history</code></li>
+        <li><strong>AI Service</strong>: <code>POST /predict</code>, <code>POST /analyze-diet</code>, <code>POST /analyze-meal</code>, <code>POST /health-recommendations</code></li>
+      </ul>
+
+      <h3>Appendix B: Environment Configuration</h3>
+      <ul>
+        <li>Backend .env: <code>MONGO_URI</code>, <code>JWT_SECRET</code>, <code>PORT</code></li>
+        <li>Frontend .env: <code>REACT_APP_NODE_BASE_URL</code>, <code>REACT_APP_AI_BASE_URL</code></li>
+        <li>AI Service: optional <code>PORT</code> via environment</li>
+      </ul>
+
+      <h3>Appendix C: Setup & Run Instructions</h3>
+      <ul>
+        <li>AI Service: <code>cd ai-service</code>; create venv; install deps; ensure <code>food_model.keras</code>; <code>python app.py</code>.</li>
+        <li>Backend: <code>cd backend</code>; <code>npm install</code>; <code>npm run dev</code>.</li>
+        <li>Frontend: <code>cd frontend</code>; <code>npm install</code>; <code>npm start</code>.</li>
+      </ul>
+    </section>
+
+    <p class="muted">Open this file in a browser and use Print → Save as PDF to export the proposal.</p>
+  </div>
+</body>
+</html>

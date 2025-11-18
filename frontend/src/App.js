@@ -10,6 +10,9 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import About from "./pages/About";
+import Help from "./pages/Help";
+import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
 import Scan from "./pages/Scan";
 import History from "./pages/History";
@@ -141,7 +144,16 @@ function App() {
             <Navigate to="/dashboard" replace /> : 
             <Register />
           } 
-        />
+        />{ <Route path="/about" 
+        element={<About />} />}
+
+        { <Route path="/help"
+         element={<Help />} />}
+
+         { <Route path="/contact" 
+         element={<Contact />} />}
+
+
 
         {/* Protected Routes */}
         <Route
