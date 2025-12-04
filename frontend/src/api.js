@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // Flask backend (AI model) — used for food image scanning
-const AI_BASE_URL = "http://localhost:5001";
+const AI_BASE_URL = process.env.REACT_APP_AI_BASE_URL || "http://localhost:5001";
 
 // Node.js backend — for user login/registration/history
-const NODE_BASE_URL = "http://localhost:3001";
+const NODE_BASE_URL = process.env.REACT_APP_NODE_BASE_URL || "http://localhost:3001";
 
 // ======================================================
 // 1️⃣ Register User

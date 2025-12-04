@@ -9,7 +9,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:3000"],
+        "origins": ["http://localhost:3000", "https://smart-food-assistant-production.up.railway.app", "https://smart-food-assistant.up.railway.app"],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "expose_headers": ["Content-Range", "X-Content-Range"]
