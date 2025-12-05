@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
 function Scan() {
@@ -8,32 +8,40 @@ function Scan() {
   const [cameraError, setCameraError] = useState("");
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
+  
+  // Refs to manage DOM elements and the stream object
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const streamRef = useRef(null); // CRUCIAL: Holds the active MediaStream object
+
   const token = localStorage.getItem("token");
 
-  // 🛑 Stop camera
+  // --------------------------
+  // Camera Control Functions
+  // --------------------------
+
+  // 🛑 Stop camera stream safely
   const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
-      tracks.forEach(track => track.stop());
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null; // Clear the stream reference
+    }
+    if (videoRef.current) {
       videoRef.current.srcObject = null;
     }
     setStreaming(false);
   };
 
-  // Start camera
+  // Start camera stream
   const startCamera = async () => {
     setCameraError("");
     
-    // Check if mediaDevices is supported
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setCameraError("Camera API is not supported by your browser. Try Chrome, Firefox, or Edge.");
       return;
     }
 
     try {
-      // Request camera with specific constraints
       const constraints = {
         video: {
           width: { ideal: 1280 },
@@ -43,6 +51,9 @@ function Scan() {
       };
       
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      
+      // Store the stream globally (in the ref) and assign it to the video element
+      streamRef.current = stream; 
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -69,19 +80,23 @@ function Scan() {
     }
   };
 
-  // Stop camera when component unmounts
+  // CRITICAL FIX: Stop camera when component unmounts
   React.useEffect(() => {
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = videoRef.current.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
-      }
+      // Safely calls the stop function when the component is removed
+      stopCamera();
     };
-  }, []);
+  }, []); // Run only on mount and unmount
+
+  // --------------------------
+  // Image Capture and Scan
+  // --------------------------
 
   // Capture photo
   const capturePhoto = () => {
     if (!videoRef.current) return;
+    stopCamera(); // Stop streaming after capture
+    
     const canvas = canvasRef.current;
     const video = videoRef.current;
     canvas.width = video.videoWidth;
@@ -103,11 +118,14 @@ function Scan() {
     setFeedback("");
 
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file); // Backend (predict_api.py) expects 'file', not 'image'
+
+    // Use environment variable for the Backend URL
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001"; 
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/api/food/scan",
+        `${API_URL}/api/food/scan`, // Use the variable
         formData,
         {
           headers: {
@@ -126,63 +144,26 @@ function Scan() {
       
       setPrediction(processedResult);
       setFeedback("✅ Scan successful!");
-      setFile(null);
-      stopCamera();
+      // Optionally keep the file for display, but clear it if needed
+      // setFile(null); 
+      
     } catch (err) {
       console.error("Error scanning image:", err);
       setFeedback(err.message || "❌ Scan failed. Please try again.");
       
       if (err.code === "ERR_NETWORK") {
-        setFeedback("❌ Cannot connect to AI service. Please ensure the AI server is running.");
+        setFeedback("❌ Cannot connect to API server. Check network connection and server status.");
+      } else if (err.response && err.response.data && err.response.data.error) {
+        setFeedback(`❌ Scan failed: ${err.response.data.error}`);
       }
     } finally {
       setLoading(false);
     }
   };
 
-  // Inline styles
-  const styles = {
-    container: {
-      maxWidth: "500px",
-      margin: "20px auto",
-      padding: "20px",
-      borderRadius: "12px",
-      backgroundColor: "#f9f9f9",
-      boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
-      fontFamily: "Arial, sans-serif",
-    },
-    section: { marginBottom: "20px" },
-    heading: { fontSize: "22px", fontWeight: "600", marginBottom: "10px", color: "#333" },
-    input: {
-      width: "100%",
-      padding: "10px",
-      borderRadius: "8px",
-      border: "1px solid #ccc",
-      marginBottom: "10px",
-      fontSize: "14px",
-    },
-    button: {
-      padding: "10px 16px",
-      borderRadius: "8px",
-      border: "none",
-      backgroundColor: "#4f46e5",
-      color: "white",
-      fontWeight: "600",
-      cursor: "pointer",
-      marginRight: "10px",
-      marginBottom: "10px",
-    },
-    video: { width: "100%", borderRadius: "12px", marginBottom: "10px", border: "1px solid #ccc" },
-    result: {
-      marginTop: "10px",
-      padding: "12px",
-      borderRadius: "10px",
-      backgroundColor: "#e0f7fa",
-      color: "#006064",
-      fontWeight: "500",
-    },
-    error: { color: "red", marginBottom: "10px" },
-  };
+  // --------------------------
+  // Component Rendering
+  // --------------------------
 
   return (
     <div style={{
@@ -223,7 +204,10 @@ function Scan() {
         }}>
           <input
             type="file"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => {
+                setFile(e.target.files[0]);
+                stopCamera(); // Stop camera if user uploads a file
+            }}
             accept="image/*"
             style={{
               width: "100%",
@@ -232,6 +216,8 @@ function Scan() {
             }}
           />
         </div>
+        
+        {cameraError && <p style={{ color: 'red', marginBottom: '16px' }}>{cameraError}</p>}
 
         {/* Camera Section */}
         {!streaming ? (
@@ -318,16 +304,17 @@ function Scan() {
           <p style={{
             textAlign: "center",
             fontWeight: "500",
-            color: "var(--primary-color)",
+            color: feedback.startsWith("❌") ? "#e74c3c" : "var(--primary-color)",
             marginTop: "16px",
             padding: "12px 16px",
-            backgroundColor: "rgba(44, 120, 108, 0.08)",
+            backgroundColor: feedback.startsWith("❌") ? "rgba(231, 76, 60, 0.08)" : "rgba(44, 120, 108, 0.08)",
             borderRadius: "6px",
           }}>
             {feedback}
           </p>
         )}
 
+        {/* Hidden Canvas for capture */}
         <canvas ref={canvasRef} style={{ display: "none" }} />
       </div>
 
