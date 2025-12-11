@@ -3,7 +3,8 @@ from nutrition_database import (
     EXPANDED_FOOD_DATABASE,
     EXPANDED_HEALTH_CONDITIONS,
     RECIPES_DATABASE,
-    MEAL_TIMING
+    MEAL_TIMING,
+    FOOD_NUTRITION_DATA
 )
 
 def generate_weekly_meal_plan(health_conditions=None, target_calories=2000):
@@ -69,7 +70,7 @@ def create_meal_combination(target_calories, health_conditions, macro_targets):
     """
     # Filter foods based on health conditions
     suitable_foods = {}
-    for food_id, food_info in EXPANDED_FOOD_DATABASE.items():
+    for food_id, food_info in FOOD_NUTRITION_DATA.items():
         is_suitable = True
         for condition in health_conditions:
             if condition in EXPANDED_HEALTH_CONDITIONS:
@@ -149,11 +150,20 @@ def generate_shopping_list(meal_plan):
     # Convert to list format with categories
     categorized_list = {}
     for item, amount in shopping_list.items():
-        if item in EXPANDED_FOOD_DATABASE:
-            category = EXPANDED_FOOD_DATABASE[item]['category']
+        if item in FOOD_NUTRITION_DATA:
+            category = FOOD_NUTRITION_DATA[item]['category']
             if category not in categorized_list:
                 categorized_list[category] = []
             categorized_list[category].append({
+                'item': item,
+                'amount': round(amount, 2),
+                'unit': 'g'
+            })
+        else:
+            # Handle unknown items
+            if 'other' not in categorized_list:
+                categorized_list['other'] = []
+            categorized_list['other'].append({
                 'item': item,
                 'amount': round(amount, 2),
                 'unit': 'g'

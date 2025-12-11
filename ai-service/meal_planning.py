@@ -1,31 +1,9 @@
 import numpy as np
 from datetime import datetime
+from nutrition_database import EXPANDED_HEALTH_CONDITIONS, FOOD_NUTRITION_DATA
 
-# Nutrition database with calories and nutrients per 100g
-FOOD_DATABASE = {
-    'meat': {'calories': 250, 'protein': 25, 'fat': 15, 'carbs': 0,
-             'vitamins': ['B12', 'B6', 'Iron'], 'serving_size': 100},
-    'fish': {'calories': 200, 'protein': 22, 'fat': 12, 'carbs': 0,
-             'vitamins': ['D', 'B12', 'Omega3'], 'serving_size': 100},
-    'eggs': {'calories': 155, 'protein': 13, 'fat': 11, 'carbs': 1,
-             'vitamins': ['B12', 'D', 'A'], 'serving_size': 100},
-    'beans': {'calories': 130, 'protein': 9, 'fat': 0.5, 'carbs': 24,
-              'vitamins': ['Iron', 'Folate', 'Magnesium'], 'serving_size': 100},
-    'rice': {'calories': 130, 'protein': 2.7, 'fat': 0.3, 'carbs': 28,
-             'vitamins': ['B1', 'B6', 'Manganese'], 'serving_size': 100},
-    'bread': {'calories': 265, 'protein': 9, 'fat': 3, 'carbs': 49,
-              'vitamins': ['B1', 'B3', 'Folate'], 'serving_size': 100},
-    'leafy_greens': {'calories': 23, 'protein': 2, 'fat': 0.4, 'carbs': 4,
-                     'vitamins': ['K', 'C', 'A'], 'serving_size': 100},
-    'cruciferous': {'calories': 25, 'protein': 2, 'fat': 0.4, 'carbs': 5,
-                    'vitamins': ['C', 'K', 'Folate'], 'serving_size': 100},
-    'berries': {'calories': 57, 'protein': 0.7, 'fat': 0.3, 'carbs': 14,
-                'vitamins': ['C', 'K', 'Manganese'], 'serving_size': 100},
-    'citrus': {'calories': 47, 'protein': 0.9, 'fat': 0.1, 'carbs': 12,
-               'vitamins': ['C', 'Folate', 'Potassium'], 'serving_size': 100},
-    'nuts': {'calories': 607, 'protein': 21, 'fat': 54, 'carbs': 20,
-             'vitamins': ['E', 'Magnesium', 'B6'], 'serving_size': 100}
-}
+# Use the food database from nutrition_database module
+FOOD_DATABASE = FOOD_NUTRITION_DATA
 
 # Daily recommended values
 DAILY_RECOMMENDATIONS = {
@@ -81,6 +59,22 @@ def calculate_meal_nutrition(food_items, portions=None):
                 'carbs': carbs,
                 'vitamins': FOOD_DATABASE[food]['vitamins']
             })
+        else:
+            # Handle unknown foods with default values
+            portion = portions.get(food, 100)
+            meal_analysis.append({
+                'food': food,
+                'portion': portion,
+                'calories': 100,  # Default calories
+                'protein': 5,     # Default protein
+                'fat': 2,         # Default fat
+                'carbs': 15,      # Default carbs
+                'vitamins': ['Unknown']
+            })
+            total_nutrients['calories'] += 100
+            total_nutrients['protein'] += 5
+            total_nutrients['fat'] += 2
+            total_nutrients['carbs'] += 15
     
     # Calculate percentage of daily recommendations
     daily_percentages = {
@@ -90,8 +84,15 @@ def calculate_meal_nutrition(food_items, portions=None):
         'carbs': (total_nutrients['carbs'] / DAILY_RECOMMENDATIONS['carbs']['max']) * 100
     }
     
+    # Convert vitamins set to list for JSON serialization
+    total_nutrients['vitamins'] = list(total_nutrients['vitamins'])
+    
     return {
         'total_nutrients': total_nutrients,
+        'total_calories': total_nutrients['calories'],
+        'total_protein': total_nutrients['protein'],
+        'total_fat': total_nutrients['fat'],
+        'total_carbs': total_nutrients['carbs'],
         'daily_percentages': daily_percentages,
         'meal_analysis': meal_analysis,
         'timestamp': datetime.now().isoformat()
@@ -117,9 +118,9 @@ def generate_meal_plan(health_conditions=None, target_calories=2000):
     recommended_foods = set()
     
     for condition in health_conditions:
-        if condition in HEALTH_RECOMMENDATIONS:
-            restricted_foods.update(HEALTH_RECOMMENDATIONS[condition]['avoid'])
-            recommended_foods.update(HEALTH_RECOMMENDATIONS[condition]['recommended'])
+        if condition in EXPANDED_HEALTH_CONDITIONS:
+            restricted_foods.update(EXPANDED_HEALTH_CONDITIONS[condition]['avoid'])
+            recommended_foods.update(EXPANDED_HEALTH_CONDITIONS[condition]['recommended'])
     
     # Generate meals
     available_foods = set(FOOD_DATABASE.keys()) - restricted_foods

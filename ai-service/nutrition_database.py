@@ -4,6 +4,44 @@ Enhanced nutrition and health database with comprehensive food categories and he
 
 # Expanded food categories with detailed nutritional information
 EXPANDED_FOOD_DATABASE = {
+    'proteins': {
+        'meat': ['chicken_breast', 'turkey', 'beef', 'pork', 'lamb'],
+        'fish': ['salmon', 'tuna', 'cod', 'tilapia', 'sardines'],
+        'plant_based': ['beans', 'lentils', 'tofu', 'tempeh', 'chickpeas'],
+        'eggs_and_dairy': ['eggs', 'greek_yogurt', 'cottage_cheese']
+    },
+    'carbohydrates': {
+        'whole_grains': ['brown_rice', 'quinoa', 'oats', 'whole_wheat_bread', 'barley'],
+        'starchy_vegetables': ['sweet_potatoes', 'potatoes', 'corn', 'peas'],
+        'legumes': ['black_beans', 'kidney_beans', 'chickpeas', 'lentils']
+    },
+    'vegetables': {
+        'leafy_greens': ['spinach', 'kale', 'lettuce', 'swiss_chard', 'arugula'],
+        'cruciferous': ['broccoli', 'cauliflower', 'brussels_sprouts', 'cabbage'],
+        'root_vegetables': ['carrots', 'beets', 'turnips', 'radishes'],
+        'others': ['tomatoes', 'peppers', 'cucumbers', 'zucchini', 'mushrooms']
+    },
+    'fruits': {
+        'berries': ['blueberries', 'strawberries', 'raspberries', 'blackberries'],
+        'citrus': ['oranges', 'lemons', 'limes', 'grapefruits'],
+        'tropical': ['bananas', 'mangoes', 'pineapple', 'papaya'],
+        'tree_fruits': ['apples', 'pears', 'peaches', 'plums']
+    },
+    'dairy': {
+        'milk_products': ['milk', 'yogurt', 'kefir'],
+        'cheese': ['cheddar', 'mozzarella', 'feta', 'cottage_cheese'],
+        'alternatives': ['almond_milk', 'soy_milk', 'oat_milk']
+    },
+    'healthy_fats': {
+        'oils': ['olive_oil', 'avocado_oil', 'coconut_oil'],
+        'nuts': ['almonds', 'walnuts', 'cashews', 'pistachios'],
+        'seeds': ['chia_seeds', 'flax_seeds', 'pumpkin_seeds'],
+        'other_fats': ['avocados', 'coconut']
+    }
+}
+
+# Individual food nutritional data
+FOOD_NUTRITION_DATA = {
     # Proteins
     'chicken_breast': {'calories': 165, 'protein': 31, 'fat': 3.6, 'carbs': 0,
                       'vitamins': ['B6', 'B12', 'Niacin'], 'serving_size': 100,
@@ -14,6 +52,12 @@ EXPANDED_FOOD_DATABASE = {
     'tofu': {'calories': 144, 'protein': 17, 'fat': 8.7, 'carbs': 2.8,
              'vitamins': ['Iron', 'Calcium', 'Magnesium'], 'serving_size': 100,
              'category': 'protein', 'glycemic_index': 15},
+    'beans': {'calories': 130, 'protein': 9, 'fat': 0.5, 'carbs': 24,
+              'vitamins': ['Iron', 'Folate', 'Magnesium'], 'serving_size': 100,
+              'category': 'protein', 'glycemic_index': 30},
+    'eggs': {'calories': 155, 'protein': 13, 'fat': 11, 'carbs': 1,
+             'vitamins': ['B12', 'D', 'A'], 'serving_size': 100,
+             'category': 'protein', 'glycemic_index': 0},
     
     # Grains
     'quinoa': {'calories': 120, 'protein': 4.4, 'fat': 1.9, 'carbs': 21.3,
@@ -22,17 +66,29 @@ EXPANDED_FOOD_DATABASE = {
     'brown_rice': {'calories': 111, 'protein': 2.6, 'fat': 0.9, 'carbs': 23,
                    'vitamins': ['B1', 'B6', 'Magnesium'], 'serving_size': 100,
                    'category': 'grain', 'glycemic_index': 50},
+    'rice': {'calories': 130, 'protein': 2.7, 'fat': 0.3, 'carbs': 28,
+             'vitamins': ['B1', 'B6', 'Manganese'], 'serving_size': 100,
+             'category': 'grain', 'glycemic_index': 70},
     'oats': {'calories': 389, 'protein': 16.9, 'fat': 6.9, 'carbs': 66.3,
              'vitamins': ['Iron', 'Zinc', 'B1'], 'serving_size': 100,
              'category': 'grain', 'glycemic_index': 55},
+    'bread': {'calories': 265, 'protein': 9, 'fat': 3, 'carbs': 49,
+              'vitamins': ['B1', 'B3', 'Folate'], 'serving_size': 100,
+              'category': 'grain', 'glycemic_index': 75},
     
     # Vegetables
     'spinach': {'calories': 23, 'protein': 2.9, 'fat': 0.4, 'carbs': 3.6,
                 'vitamins': ['K', 'A', 'C'], 'serving_size': 100,
                 'category': 'vegetable', 'glycemic_index': 0},
+    'leafy_greens': {'calories': 23, 'protein': 2, 'fat': 0.4, 'carbs': 4,
+                     'vitamins': ['K', 'C', 'A'], 'serving_size': 100,
+                     'category': 'vegetable', 'glycemic_index': 0},
     'broccoli': {'calories': 55, 'protein': 3.7, 'fat': 0.6, 'carbs': 11.2,
                  'vitamins': ['C', 'K', 'Folate'], 'serving_size': 100,
                  'category': 'vegetable', 'glycemic_index': 10},
+    'cruciferous': {'calories': 25, 'protein': 2, 'fat': 0.4, 'carbs': 5,
+                    'vitamins': ['C', 'K', 'Folate'], 'serving_size': 100,
+                    'category': 'vegetable', 'glycemic_index': 10},
     'sweet_potato': {'calories': 86, 'protein': 1.6, 'fat': 0.1, 'carbs': 20.1,
                      'vitamins': ['A', 'C', 'B6'], 'serving_size': 100,
                      'category': 'vegetable', 'glycemic_index': 70},
@@ -41,9 +97,15 @@ EXPANDED_FOOD_DATABASE = {
     'blueberries': {'calories': 57, 'protein': 0.7, 'fat': 0.3, 'carbs': 14.5,
                     'vitamins': ['C', 'K', 'Manganese'], 'serving_size': 100,
                     'category': 'fruit', 'glycemic_index': 53},
+    'berries': {'calories': 57, 'protein': 0.7, 'fat': 0.3, 'carbs': 14,
+                'vitamins': ['C', 'K', 'Manganese'], 'serving_size': 100,
+                'category': 'fruit', 'glycemic_index': 53},
     'apple': {'calories': 52, 'protein': 0.3, 'fat': 0.2, 'carbs': 14,
               'vitamins': ['C', 'Fiber', 'Potassium'], 'serving_size': 100,
               'category': 'fruit', 'glycemic_index': 36},
+    'citrus': {'calories': 47, 'protein': 0.9, 'fat': 0.1, 'carbs': 12,
+               'vitamins': ['C', 'Folate', 'Potassium'], 'serving_size': 100,
+               'category': 'fruit', 'glycemic_index': 35},
     'avocado': {'calories': 160, 'protein': 2, 'fat': 14.7, 'carbs': 8.5,
                 'vitamins': ['K', 'Folate', 'C'], 'serving_size': 100,
                 'category': 'fruit', 'glycemic_index': 15},
@@ -54,14 +116,25 @@ EXPANDED_FOOD_DATABASE = {
                      'category': 'dairy', 'glycemic_index': 20},
     'cottage_cheese': {'calories': 98, 'protein': 11, 'fat': 4.3, 'carbs': 3.4,
                       'vitamins': ['Calcium', 'B12', 'Phosphorus'], 'serving_size': 100,
-                      'category': 'dairy', 'glycemic_index': 30}
+                      'category': 'dairy', 'glycemic_index': 30},
+    
+    # Fats
+    'nuts': {'calories': 607, 'protein': 21, 'fat': 54, 'carbs': 20,
+             'vitamins': ['E', 'Magnesium', 'B6'], 'serving_size': 100,
+             'category': 'fat', 'glycemic_index': 15},
+    'meat': {'calories': 250, 'protein': 25, 'fat': 15, 'carbs': 0,
+             'vitamins': ['B12', 'B6', 'Iron'], 'serving_size': 100,
+             'category': 'protein', 'glycemic_index': 0},
+    'fish': {'calories': 200, 'protein': 22, 'fat': 12, 'carbs': 0,
+             'vitamins': ['D', 'B12', 'Omega3'], 'serving_size': 100,
+             'category': 'protein', 'glycemic_index': 0}
 }
 
 # Expanded health conditions database
 EXPANDED_HEALTH_CONDITIONS = {
     'diabetes': {
-        'recommended': ['quinoa', 'spinach', 'chicken_breast', 'greek_yogurt'],
-        'avoid': ['white_bread', 'sugary_foods', 'processed_foods'],
+        'recommended': ['quinoa', 'spinach', 'chicken_breast', 'greek_yogurt', 'fish', 'leafy_greens', 'berries'],
+        'avoid': ['bread', 'rice', 'sugary_foods', 'processed_foods'],
         'advice': 'Focus on low glycemic index foods and regular meal timing.',
         'glycemic_index_limit': 55,
         'meal_timing': {'breakfast': '7-8AM', 'lunch': '12-1PM', 'dinner': '6-7PM'},
