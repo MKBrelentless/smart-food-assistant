@@ -1,10 +1,16 @@
 import axios from "axios";
 
-// Flask backend (AI model) — used for food image scanning
-const AI_BASE_URL = process.env.REACT_APP_AI_BASE_URL || "http://localhost:5001";
+// Replace these URLs with your actual Railway URLs
+const NODE_BASE_URL = "https://retech-smart-food-assistant-production.up.railway.app";
+// If AI service is deployed separately, use its URL:
+// const AI_BASE_URL = "https://your-ai-service-railway-url.railway.app";
+// If AI service is on same Railway app, use same URL:
+const AI_BASE_URL = "https://retech-smart-food-assistant-production.up.railway.app";
 
-// Node.js backend — for user login/registration/history
-const NODE_BASE_URL = process.env.REACT_APP_NODE_BASE_URL || "http://localhost:3001";
+
+// For local development, uncomment these:
+// const NODE_BASE_URL = "http://localhost:3001";
+// const AI_BASE_URL = "http://localhost:5001";
 
 // ======================================================
 // 1️⃣ Register User
