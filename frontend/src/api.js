@@ -1,23 +1,15 @@
 import axios from "axios";
 
-// Replace these URLs with your actual Railway URLs
-const NODE_BASE_URL = "https://retech-smart-food-assistant-production.up.railway.app";
-// If AI service is deployed separately, use its URL:
-// const AI_BASE_URL = "https://your-ai-service-railway-url.railway.app";
-// If AI service is on same Railway app, use same URL:
-const AI_BASE_URL = "https://retech-smart-food-assistant-production.up.railway.app";
+export const NODE_BASE_URL = "https://retech-smart-food-assistant-production.up.railway.app";
+export const AI_BASE_URL = NODE_BASE_URL; 
 
-
-// For local development, uncomment these:
-// const NODE_BASE_URL = "http://localhost:3001";
-// const AI_BASE_URL = "http://localhost:5001";
 
 // ======================================================
 // 1️⃣ Register User
 // ======================================================
 export const register = async (userData) => {
   try {
-    const response = await axios.post(`${NODE_BASE_URL}/auth/register`, userData);
+    const response = await axios.post(`${NODE_BASE_URL}/api/auth/register`, userData);
     return response.data;
   } catch (error) {
     console.error("❌ Registration failed:", error);
@@ -36,7 +28,7 @@ export const register = async (userData) => {
 // ======================================================
 export const login = async (credentials) => {
   try {
-    const response = await axios.post(`${NODE_BASE_URL}/auth/login`, credentials);
+    const response = await axios.post(`${NODE_BASE_URL}/api/auth/login`, credentials);
     return { data: response.data };
   } catch (error) {
     console.error("❌ Login failed:", error);
@@ -57,7 +49,6 @@ export const login = async (credentials) => {
 // ======================================================
 export const scanFood = async (formData) => {
   try {
-    // Validate formData
     if (!formData.get('file')) {
       throw new Error('No image file provided');
     }
@@ -66,9 +57,9 @@ export const scanFood = async (formData) => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      timeout: 30000, // 30 second timeout
+      timeout: 30000,
     });
-    
+
     return response.data;
   } catch (error) {
     console.error("❌ Error scanning food:", error);
@@ -83,7 +74,7 @@ export const scanFood = async (formData) => {
 };
 
 // ======================================================
-// 4️⃣ Get Scan History (from Node backend)
+// 4️⃣ Get Scan History
 // ======================================================
 export const getHistory = async (token) => {
   try {
